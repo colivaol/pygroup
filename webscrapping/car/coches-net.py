@@ -1,22 +1,18 @@
+# TO-DO: arreglar el import desde otras carpetas (headers/header.py)
+# from webscrapping.headers.headers import get_random_header  # Importa desde la carpeta headers
+from headers import get_random_header  # Importa desde la carpeta headers
 import requests
 from bs4 import BeautifulSoup
-import re
 import json
+import sys
+import os
 
-headers = {
-    'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36',
-    'Accept-Language': 'en-US,en;q=0.9',
-    'Accept-Encoding': 'gzip, deflate, br',
-    'Connection': 'keep-alive',
-    'Upgrade-Insecure-Requests': '1',
-    'Sec-Fetch-Dest': 'document',
-    'Sec-Fetch-Mode': 'navigate',
-    'Sec-Fetch-Site': 'none',
-    'Sec-Fetch-User': '?1',
-    'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8',
-    'Referer': 'https://www.google.com/',
-    'DNT': '1',  # Do Not Track
-}
+current_dir = os.path.dirname(os.path.abspath(__file__))
+parent_dir = os.path.dirname(current_dir)
+app_dir = os.path.dirname(parent_dir)
+
+# Obtén un encabezado aleatorio
+headers = get_random_header()
 
 url = 'https://www.coches.net/seat-toledo-2.0-tdi-140cv-sport-5p-diesel-2006-en-madrid-58396957-covo.aspx'
 
@@ -134,7 +130,7 @@ def proceso_estatico():
 
 
 def proceso_url():
-    soup = obtener_datos_coche("https://www.coches.net/opel-astra-1.4-turbo-excellence-4p-gasolina-2014-en-madrid-58673276-covo.aspx")
+    soup = obtener_datos_coche("https://www.coches.net/opel-astra-gtc-17-cdti-energy-3p-diesel-2009-en-valencia-58704395-covo.aspx")
     print(soup)
     second_approach(soup)
 
