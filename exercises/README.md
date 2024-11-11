@@ -1,0 +1,2 @@
+# 🧩 Exercises
+A collection of Python challenges to help us strengthen our skills and cover essential concepts. We are working on these exercises from [Python Gently](https://inventwithpython.com/pythongently/), and we've created a folder for each person involved, containing their corresponding exercises.
