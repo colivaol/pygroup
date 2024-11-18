@@ -25,6 +25,7 @@ def obtener_datos_coche(url):
 
     return soup
 
+
 def obtener_datos_html_statico():
     # Abre el archivo HTML y carga el contenido como texto
     with open("seat.html", "r", encoding="utf-8") as archivo:
@@ -123,10 +124,14 @@ def proceso_url():
     return url_scraping(soup)
 
 
+def dynamic_url(url):
+    soup = obtener_datos_coche(url)
+    return url_scraping(soup)
 
-def run_coches_net():
-    return proceso_url()
+
+def run_coches_net(url):
+    return dynamic_url(url)
 
 
 if __name__ == '__main__':
-    run_coches_net()
+    run_coches_net(url)
