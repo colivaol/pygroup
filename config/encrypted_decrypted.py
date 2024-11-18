@@ -11,10 +11,10 @@ def encrypt_telegram_key():
     fernetcito = fernet_key()
     token = telegram_token.encode()
     encrypted_token = fernetcito.encrypt(token)
-    decrypt_telegram_token(fernetcito, encrypted_token)
+    # decrypt_telegram_token(fernetcito, encrypted_token)
+    return decrypt_telegram_token(fernetcito, encrypted_token)
 
 
 def decrypt_telegram_token(fernetcito, encrypted_token):
-    decrypted_telegram_token = fernetcito.decrypt(encrypted_token)
-    print(f'TOKEN:{decrypted_telegram_token}')
+    decrypted_telegram_token = fernetcito.decrypt(encrypted_token).decode()
     return decrypted_telegram_token
