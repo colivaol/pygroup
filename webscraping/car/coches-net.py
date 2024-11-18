@@ -32,9 +32,8 @@ url = 'https://www.coches.net/seat-toledo-2.0-tdi-140cv-sport-5p-diesel-2006-en-
 def obtener_datos_coche(url):
     # Web request
     response = requests.get(url, headers=headers)
-    print(f'Code Response: {response}\n\n')
+    # print(f'Code Response: {response}\n\n')
     soup = BeautifulSoup(response.text, 'html.parser')
-    print(soup)
 
     return soup
 
@@ -47,7 +46,7 @@ def obtener_datos_html_statico():
     return contenido_html
 
 
-def first_approach(contenido_html):
+def static_scraping(contenido_html):
     # Parseamos el contenido HTML con BeautifulSoup
     soup = BeautifulSoup(contenido_html, 'html.parser')
     script_tag = soup.find('script', type='application/ld+json')
@@ -86,9 +85,8 @@ def first_approach(contenido_html):
     print("Moneda:", moneda)
 
 
-def second_approach(soup):
+def url_scraping(soup):
     script_tag = soup.find('script', type='application/ld+json')
-    print(script_tag)
     # Extrae el contenido del script y conviértelo en un diccionario
     if script_tag:
         json_data = json.loads(script_tag.string)
@@ -126,52 +124,16 @@ def second_approach(soup):
 
 def proceso_estatico():
     contenido_html = obtener_datos_html_statico()
-    first_approach(contenido_html)
+    static_scraping(contenido_html)
 
 
 def proceso_url():
-    soup = obtener_datos_coche("https://www.coches.net/opel-astra-gtc-17-cdti-energy-3p-diesel-2009-en-valencia-58704395-covo.aspx")
-    print(soup)
-    second_approach(soup)
+    soup = obtener_datos_coche("https://www.coches.net/opel-astra-16-cdti-81kw-110cv-business-st-5p-diesel-2019-en-madrid-59020142-covo.aspx")
+    url_scraping(soup)
 
 
 def main():
     proceso_url()
-
-
-
-    # # Verifica si 'descriptions' está presente
-    # print('\"description\"' in contenido_html)  # Debe devolver True si está presente
-    #
-    # # print(contenido_html[10000:])  # Muestra los primeros 1000 caracteres para revisar el formato
-    #
-    # # Buscar JSON en el texto
-    # patron = descriptions"\:'  # Captura el bloque después de "descriptions"
-    # # Buscar el patrón en el texto
-    # resultado = re.search(patron, contenido_html, re.DOTALL)  # re.DOTALL permite que `.*?` coincida con saltos de línea
-    #
-    # if resultado:
-    #     # Extrae el grupo capturado
-    #     bloque_descriptions = resultado.group(1)
-    #     print("Contenido de descriptions:", bloque_descriptions)
-    # else:
-    #     print("No se encontró el bloque 'descriptions'.")
-
-
-    # # Get specific data
-    # car['name'] = soup.find('h1',
-    #                         {'class': 'mt-TitleBasic-title mt-TitleBasic-title--s mt-TitleBasic-title--black'}).text.strip()
-    #
-    # if not car['name']:
-    #     # si no encontramos el nombre con la etiqueta de arriba lo intentamos con esta
-    #     name = soup.find('h5',
-    #                      {'class': 'mt-TitleBasic-title mt-TitleBasic-title--xs mt-TitleBasic-title--black mt-TitleBasic-title--maxLines-1'}).text.strip()
-    # else:
-    #     print(f'name: {car['name']}')
-    #
-    # car['price'] = soup.find('h5',
-    #                    {'class': 'mt-TitleBasic-title mt-TitleBasic-title--xs mt-TitleBasic-title--currentColor'}).text.strip()
-    # print(f'price: {car['price']}')
 
 
 if __name__ == '__main__':
