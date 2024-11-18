@@ -1,10 +1,9 @@
 # TO-DO: arreglar el import desde otras carpetas (headers/header.py)
 # from webscrapping.headers.headers import get_random_header  # Importa desde la carpeta headers
-from headers import get_random_header  # Importa desde la carpeta headers
+from webscraping.headers.headers import get_random_header  # Importa desde la carpeta headers
 import requests
 from bs4 import BeautifulSoup
 import json
-import sys
 import os
 
 current_dir = os.path.dirname(os.path.abspath(__file__))
@@ -16,17 +15,6 @@ headers = get_random_header()
 
 url = 'https://www.coches.net/seat-toledo-2.0-tdi-140cv-sport-5p-diesel-2006-en-madrid-58396957-covo.aspx'
 
-# Model
-# Year
-# Price
-# Mileage
-#  HP (Horsepower)
-# Number of doors
-# Color
-# Fuel
-# Transmission
-# Location
-# hnw-eosx-ysm
 
 #  Function for scraping
 def obtener_datos_coche(url):
@@ -108,18 +96,21 @@ def url_scraping(soup):
     precio = json_data['offers']['price']
     moneda = json_data['offers']['priceCurrency']
 
-    # Imprime los valores
-    print("Nombre:", nombre)
-    print("Marca:", marca)
-    print("Modelo:", modelo)
-    print("URL:", url)
-    print("Imagen:", imagen)
-    print("Fecha de producción:", fecha_produccion)
-    print("Tipo de carrocería:", tipo_carroceria)
-    print("Descripción:", descripcion)
-    print("Color:", color)
-    print("Precio:", precio)
-    print("Moneda:", moneda)
+    datos = {
+        "nombre": nombre,
+        "marca": marca,
+        "modelo": modelo,
+        "url": url,
+        "imagen": imagen,
+        "fecha_produccion": fecha_produccion,
+        "tipo_carroceria": tipo_carroceria,
+        "descripcion": descripcion,
+        "color": color,
+        "precio": precio,
+        "moneda": moneda
+    }
+
+    return datos
 
 
 def proceso_estatico():
@@ -129,12 +120,13 @@ def proceso_estatico():
 
 def proceso_url():
     soup = obtener_datos_coche("https://www.coches.net/opel-astra-16-cdti-81kw-110cv-business-st-5p-diesel-2019-en-madrid-59020142-covo.aspx")
-    url_scraping(soup)
+    return url_scraping(soup)
 
 
-def main():
-    proceso_url()
+
+def run_coches_net():
+    return proceso_url()
 
 
 if __name__ == '__main__':
-    main()
+    run_coches_net()
