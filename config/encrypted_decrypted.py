@@ -1,5 +1,5 @@
 from cryptography.fernet import Fernet
-from secret_keys import telegram_token
+from config.secret_keys import telegram_token
 
 
 def fernet_key():
@@ -16,4 +16,5 @@ def encrypt_telegram_key():
 
 def decrypt_telegram_token(fernetcito, encrypted_token):
     decrypted_telegram_token = fernetcito.decrypt(encrypted_token)
+    print(f'TOKEN:{decrypted_telegram_token}')
     return decrypted_telegram_token
