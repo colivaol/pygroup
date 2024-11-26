@@ -1,5 +1,5 @@
 from telegram import Update
-from telegram.ext import Application, CommandHandler, ContextTypes
+from telegram.ext import Application, CommandHandler, ContextTypes, ConversationHandler, MessageHandler, filters
 import os
 import sys
 
@@ -20,15 +20,28 @@ TOKEN = encrypt_telegram_key()
 
 
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    car = run_coches_net()
-    await update.message.reply_text(car)
+    # car = run_coches_net()
+    await update.message.reply_text("Hola!!!! Envíame una URL :)")
 
+# Función que maneja la URL proporcionada por el usuario
+async def handle_url(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
+    # Captura la URL que envía el usuario
+    url = update.message.text
+    # Aquí puedes llamar a la función para procesar la URL
+    car_data = run_coches_net(url)
+    print(f"Soy el car_data{car_data}")
+    await update.message.reply_text(f"Datos del coche: {car_data}")
+
+    # Termina la conversación
+    return ConversationHandler.END
 
 # Configuración del bot
 def main():
 
     application = Application.builder().token(TOKEN).build()
     application.add_handler(CommandHandler("start", start))
+    application.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, handle_url)) # Aquí manejamos el mensaje de texto
+
     application.run_polling()
 
 

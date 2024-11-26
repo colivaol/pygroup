@@ -13,13 +13,12 @@ app_dir = os.path.dirname(parent_dir)
 # Obtén un encabezado aleatorio
 headers = get_random_header()
 
-url = 'https://www.coches.net/seat-toledo-2.0-tdi-140cv-sport-5p-diesel-2006-en-madrid-58396957-covo.aspx'
-
+# url = 'https://www.coches.net/seat-toledo-diesel-2009-en-almeria-59292290-covo.aspx'
 
 #  Function for scraping
 def obtener_datos_coche(url):
     # Web request
-    response = requests.get(url, headers=headers)
+    response = requests.get(url, headers=headers) # Lo que obtiene la URL
     # print(f'Code Response: {response}\n\n')
     soup = BeautifulSoup(response.text, 'html.parser')
 
@@ -74,6 +73,7 @@ def static_scraping(contenido_html):
 
 
 def url_scraping(soup):
+    print(f"Soy el print de url_scraping {soup}")
     script_tag = soup.find('script', type='application/ld+json')
     # Extrae el contenido del script y conviértelo en un diccionario
     if script_tag:
@@ -118,14 +118,18 @@ def proceso_estatico():
     static_scraping(contenido_html)
 
 
-def proceso_url():
-    soup = obtener_datos_coche("https://www.coches.net/opel-astra-16-cdti-81kw-110cv-business-st-5p-diesel-2019-en-madrid-59020142-covo.aspx")
+def proceso_url(url):
+    # soup = obtener_datos_coche("https://www.coches.net/opel-astra-16-cdti-81kw-110cv-business-st-5p-diesel-2019-en-madrid-59020142-covo.aspx")
+    #print(f"Estoy recibiendo la URL en proceso_url: {url}")
+    # await update.message.reply_text()
+    soup = url
     return url_scraping(soup)
 
 
 
-def run_coches_net():
-    return proceso_url()
+async def run_coches_net(url):
+    print(f"Soy print run_coches_net {url}")
+    return proceso_url(url)
 
 
 if __name__ == '__main__':
