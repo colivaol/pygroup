@@ -1,5 +1,6 @@
+#TODO: Opción de finalizar conversación o seguir haciendo scraping
 from telegram import Update
-from telegram.ext import Application, CommandHandler, ContextTypes, ConversationHandler, MessageHandler, filters
+from telegram.ext import Application, CommandHandler, ContextTypes, MessageHandler, filters
 import os
 import sys
 
@@ -20,30 +21,51 @@ TOKEN = encrypt_telegram_key()
 
 
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    # car = run_coches_net()
-    await update.message.reply_text("Hola!!!! Envíame una URL :)")
+    await update.message.reply_text("¡Hola! Envíame una url de www.coches.net")
 
-# Función que maneja la URL proporcionada por el usuario
-async def handle_url(update: Update, context: ContextTypes.DEFAULT_TYPE) -> int:
-    # Captura la URL que envía el usuario
-    url = update.message.text
-    # Aquí puedes llamar a la función para procesar la URL
-    car_data = run_coches_net(url)
-    print(f"Soy el car_data{car_data}")
-    await update.message.reply_text(f"Datos del coche: {car_data}")
+# Función para manejar el comando con argumentos
+async def find(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    # El nombre de este metodo se corresponde al comando que se usara en el bot, en este caso seria /find
+    # Recoge los argumentos después del comando
+    argumentos = ' '.join(context.args)  # Une todos los argumentos en un string
+    if not argumentos:
+        await update.message.reply_text("Por favor, proporciona una url de www.coches.net")
+        return
 
-    # Termina la conversación
-    return ConversationHandler.END
+    # Llama a la función personalizada con los datos del usuario
+    resultado = realizar_busqueda(argumentos)
 
-# Configuración del bot
+    # Devuelve el resultado al usuario
+    await update.message.reply_text(resultado)
+
+
+# Función personalizada para usar los datos que envía el usuario
+def realizar_busqueda(texto):
+    # Aquí usarías `texto` en tu lógica personalizada, como scraping o búsqueda
+    print(f'TEXTO:{texto}')
+    coche = run_coches_net(texto)
+    print(coche)
+    return coche
+
+# Función para manejar mensajes de texto sin comandos
+async def manejar_texto(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    texto_usuario = update.message.text  # Captura el texto enviado por el usuario
+
+    # Llama a la función personalizada con el texto
+    resultado = realizar_busqueda(texto_usuario)
+
+    # Responde al usuario
+    await update.message.reply_text(f"Resultado para tu url de www.coches.net: {resultado}")
+
+
 def main():
 
     application = Application.builder().token(TOKEN).build()
     application.add_handler(CommandHandler("start", start))
-    application.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, handle_url)) # Aquí manejamos el mensaje de texto
-
+    application.add_handler(CommandHandler("find", find))
+    application.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, manejar_texto))
     application.run_polling()
-
+    
 
 if __name__ == '__main__':
     main()

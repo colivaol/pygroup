@@ -1,6 +1,4 @@
-# TO-DO: arreglar el import desde otras carpetas (headers/header.py)
-# from webscrapping.headers.headers import get_random_header  # Importa desde la carpeta headers
-from webscraping.headers.headers import get_random_header  # Importa desde la carpeta headers
+from webscraping.headers.headers import get_random_header
 import requests
 from bs4 import BeautifulSoup
 import json
@@ -10,26 +8,25 @@ current_dir = os.path.dirname(os.path.abspath(__file__))
 parent_dir = os.path.dirname(current_dir)
 app_dir = os.path.dirname(parent_dir)
 
-# Obtén un encabezado aleatorio
+
 headers = get_random_header()
 
-# url = 'https://www.coches.net/seat-toledo-diesel-2009-en-almeria-59292290-covo.aspx'
+
 
 #  Function for scraping
 def obtener_datos_coche(url):
-    # Web request
-    response = requests.get(url, headers=headers) # Lo que obtiene la URL
-    # print(f'Code Response: {response}\n\n')
+    response = requests.get(url, headers=headers) 
     soup = BeautifulSoup(response.text, 'html.parser')
 
     return soup
 
+
 def obtener_datos_html_statico():
-    # Abre el archivo HTML y carga el contenido como texto
+
     with open("seat.html", "r", encoding="utf-8") as archivo:
         contenido_html = archivo.read()
 
-    # Ahora 'contenido_html' contiene todo el HTML como texto
+
     return contenido_html
 
 
@@ -40,10 +37,11 @@ def static_scraping(contenido_html):
     # Extrae el contenido del script y conviértelo en un diccionario
     if script_tag:
         json_data = json.loads(script_tag.string)
+        print(json_data)
     else:
         print("No se encontró el script 'application/ld+json'.")
 
-    # Datos básicos
+
     nombre = json_data['name']
     marca = json_data['brand']['name']
     modelo = json_data['model']
@@ -54,11 +52,11 @@ def static_scraping(contenido_html):
     descripcion = json_data['description']
     color = json_data['color']
 
-    # Oferta y precio
+
     precio = json_data['offers']['price']
     moneda = json_data['offers']['priceCurrency']
 
-    # Imprime los valores
+
     print("Nombre:", nombre)
     print("Marca:", marca)
     print("Modelo:", modelo)
@@ -73,7 +71,7 @@ def static_scraping(contenido_html):
 
 
 def url_scraping(soup):
-    print(f"Soy el print de url_scraping {soup}")
+
     script_tag = soup.find('script', type='application/ld+json')
     # Extrae el contenido del script y conviértelo en un diccionario
     if script_tag:
@@ -81,7 +79,8 @@ def url_scraping(soup):
     else:
         print("No se encontró el script 'application/ld+json'.")
 
-    # Datos básicos
+
+
     nombre = json_data['name']
     marca = json_data['brand']['name']
     modelo = json_data['model']
@@ -92,7 +91,7 @@ def url_scraping(soup):
     descripcion = json_data['description']
     color = json_data['color']
 
-    # Oferta y precio
+
     precio = json_data['offers']['price']
     moneda = json_data['offers']['priceCurrency']
 
@@ -113,23 +112,19 @@ def url_scraping(soup):
     return datos
 
 
-def proceso_estatico():
+def static_process():
     contenido_html = obtener_datos_html_statico()
     static_scraping(contenido_html)
 
 
-def proceso_url(url):
-    # soup = obtener_datos_coche("https://www.coches.net/opel-astra-16-cdti-81kw-110cv-business-st-5p-diesel-2019-en-madrid-59020142-covo.aspx")
-    #print(f"Estoy recibiendo la URL en proceso_url: {url}")
-    # await update.message.reply_text()
-    soup = url
+def dynamic_process(url):
+    soup = obtener_datos_coche(url)
     return url_scraping(soup)
 
 
 
-async def run_coches_net(url):
-    print(f"Soy print run_coches_net {url}")
-    return proceso_url(url)
+def run_coches_net(url):
+    return dynamic_process(url)
 
 
 if __name__ == '__main__':
