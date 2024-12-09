@@ -26,11 +26,13 @@ TOKEN = encrypt_telegram_key()
 
 # Configuración del bot
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    # El nombre de este metodo se corresponde al comando que se usara en el bot, en este caso seria /start
     await update.message.reply_text("¡Hola! Envíame url de www.coches.net")
 
 
 # Función para manejar el comando con argumentos
-async def buscar(update: Update, context: ContextTypes.DEFAULT_TYPE):
+async def find(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    # El nombre de este metodo se corresponde al comando que se usara en el bot, en este caso seria /find
     # Recoge los argumentos después del comando
     argumentos = ' '.join(context.args)  # Une todos los argumentos en un string
     if not argumentos:
@@ -68,7 +70,7 @@ def main():
 
     application = Application.builder().token(TOKEN).build()
     application.add_handler(CommandHandler("start", start))
-    application.add_handler(CommandHandler("buscar", buscar))
+    application.add_handler(CommandHandler("find", find))
     application.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, manejar_texto))
     application.run_polling()
 
