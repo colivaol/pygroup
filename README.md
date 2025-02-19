@@ -1,11 +1,21 @@
-# 🐍 Pygroup
+# 🐍 Pygroup  
 
-Welcome to our Python practice repo! 
+Welcome to our Python practice repo!  
 
-We’re a group of friends who get together every week to level up our Python skills, share what we’ve learned, and work on fun coding projects.
+We’re a group of friends who meet weekly to improve our Python skills, share knowledge, and work on fun coding projects.  
 
-## 📂 What's Inside? 
+### 📂 What's Inside?  
 
-* 🧩 [Exercises](https://github.com/colivaol/pygroup/tree/main/exercises/README.md): A collection of challenges to help us strengthen our skills and cover essential concepts.
-     
-* 💻 [Web Scraping Projects](https://github.com/colivaol/pygroup/tree/main/webscraping/README.md): Projects focused on extracting data from websites.
+#### 🤓 Katas  
+Short and challenging exercises to enhance problem-solving skills and reinforce Python fundamentals. Pick a kata, solve it, and share your approach!  
+
+- 📅 **Leap Year**: Determine if a given year is a leap year.  
+
+#### 🧩 Exercises  
+A collection of Python challenges covering essential concepts. We are working on exercises from *Python Gently*, with each participant having a dedicated folder for their solutions.  
+
+#### 🔍 Web Scraping Projects  
+Projects focused on extracting data from websites.  
+
+- 🚗 **Cars**: Scraping data from car portals.  
+- 🏡 **Houses for Sale**: Coming soon! A project to extract real estate data.
